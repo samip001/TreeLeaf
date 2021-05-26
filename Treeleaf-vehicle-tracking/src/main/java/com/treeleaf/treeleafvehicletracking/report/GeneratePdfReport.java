@@ -36,7 +36,7 @@ public class GeneratePdfReport {
             hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             table.addCell(hcell);
 
-            hcell = new PdfPCell(new Phrase("Cities", headFont));
+            hcell = new PdfPCell(new Phrase("Camera", headFont));
             hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
             hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             table.addCell(hcell);

@@ -2,7 +2,7 @@
 class Task1{
 	public static void main(String[] args) {
 		
-		System.out.println(replaceCharacterToNextCharacter("*&72abc"));
+		System.out.println(replaceCharacterToNextCharacter("hellosamip"));
 	}
 
 	public static String replaceCharacterToNextCharacter(String text){

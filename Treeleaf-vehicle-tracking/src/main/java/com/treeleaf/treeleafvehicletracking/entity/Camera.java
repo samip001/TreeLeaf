@@ -1,8 +1,6 @@
 package com.treeleaf.treeleafvehicletracking.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -57,9 +55,9 @@ public class Camera implements Serializable {
         this.cameraType = cameraType;
     }
 
-//    public void addLocation(Location location){
-//        if(locations == null) locations = new ArrayList<>();
-//
-//        locations.add(location);
-//    }
+    public void addLocation(Location location){
+        if(locations == null) locations = new ArrayList<>();
+
+        locations.add(location);
+    }
 }

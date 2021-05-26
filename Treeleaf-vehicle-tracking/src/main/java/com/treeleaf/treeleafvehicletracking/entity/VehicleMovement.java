@@ -33,7 +33,6 @@ public class VehicleMovement implements Serializable {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @JsonManagedReference
     @ManyToOne(targetEntity = Vehicle.class)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;

@@ -5,7 +5,7 @@ class Main {
 
     public static void main(String[] args) {
         int[] nums = {1,2,4,4,3,3,0,9,2,3};
-        int k = 0;
+        int k = 2;
 
         System.out.println("Number of Pairs with Given Difference Value: "+findPairsNum(nums,k));
     }

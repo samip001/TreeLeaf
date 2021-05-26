@@ -2,6 +2,10 @@ package com.treeleaf.treeleafvehicletracking.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -14,7 +18,8 @@ import java.util.Arrays;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+@EnableWebMvc
+public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public Docket api(){
@@ -32,11 +37,26 @@ public class SwaggerConfig {
                 "Spring Boot REST API for Vehicle Tracking",
                 "1.0",
                 "Terms of service",
-                new Contact("Samip Rai", "samiprai.com.np", "samiprai2@gmail.com"),
+                new Contact("Samip Rai", "www.samiprai.com.np", "samiprai2@gmail.com"),
                 "Apache License Version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 Arrays.asList());
 
         return apiInfo;
     }
+
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer()
+    {
+        return new WebMvcConfigurer()
+        {
+            @Override
+            public void addResourceHandlers( ResourceHandlerRegistry registry )
+            {
+                registry.addResourceHandler( "swagger-ui.html" ).addResourceLocations( "classpath:/META-INF/resources/" );
+                registry.addResourceHandler( "/webjars/**" ).addResourceLocations( "classpath:/META-INF/resources/webjars/" );
+            }
+        };
+    }
+
 }

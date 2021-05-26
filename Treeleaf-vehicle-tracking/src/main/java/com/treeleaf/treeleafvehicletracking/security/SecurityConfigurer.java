@@ -1,5 +1,7 @@
 package com.treeleaf.treeleafvehicletracking.security;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -7,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,19 +20,38 @@ import java.security.SecureRandom;
 @EnableWebSecurity
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private AuthenticationEntryPoint entryPoint;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+//         String[] disallowedAntMatchers = {"/users/**","/locations/**","/camera/**","/vehicle/**","/vehiclemovement/**"};
+         String[] allowedAntMatchers = {"/","/greetings","/login","/swagger-ui.html/**","/webjars/**","/v2/api-docs",
+                 "/swagger-resources",
+                 "/swagger-resources/configuration/ui",
+                 "/swagger-resources/configuration/security"};
 
-        http.authorizeRequests().anyRequest().permitAll().and().httpBasic().disable();
+        http.authorizeRequests()
+                .antMatchers(allowedAntMatchers)
+                    .permitAll()
+                .and()
+                    .authorizeRequests().anyRequest().authenticated()
+                .and()
+                    .httpBasic().authenticationEntryPoint(entryPoint)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().cors()
+                .and().csrf()
+                .disable();
 
-        // cors disbaled
-        http.cors().and().csrf().disable();
+        // cors and csrf disbaled
+//        http.cors().and().csrf().disable();
 
     }
 
@@ -51,6 +73,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
+    }
+
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
 }
